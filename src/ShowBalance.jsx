@@ -2,7 +2,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const ShowBalance = () => {
+export const ShowBalance = ({check}) => {
     const wallet = useWallet();
 const {connection}=useConnection();
     const [value, setValue] = useState(null);
@@ -14,16 +14,21 @@ const {connection}=useConnection();
             setValue(null);
             return;
         }
+        
 if(click)return;
+
         setClick(1);
 
          await connection.getBalance(wallet.publicKey)
             .then((res) => {
+              
                 setValue(res/1e9);
+                setClick(0);
             })
             .catch((error) =>{
           
                 console.log(error)
+                setClick(0);
             });
 
 
@@ -31,7 +36,7 @@ if(click)return;
     }
 useEffect(()=>{
     handleClick()
-},[wallet.publicKey])
+},[wallet.publicKey,check])
     return (
         <div className="flex flex-col items-center justify-center min-h-44 p-6 space-y-6 bg-white shadow-lg rounded-lg border border-gray-200">
         {value && (
@@ -41,7 +46,7 @@ useEffect(()=>{
         )}
     
         <button
-            onClick={handleClick}
+            onClick={()=>handleClick()}
             className={`w-full max-w-xs px-8 py-4 text-lg font-semibold text-white rounded-lg shadow-lg transform transition-all duration-300 ${
                 click
                     ? 'bg-gray-400 cursor-not-allowed'

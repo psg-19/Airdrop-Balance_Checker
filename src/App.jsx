@@ -10,6 +10,7 @@ import { SendSolana } from './SendSolana';
 import { SignMessage } from './SignMessage';
 
 function App() {
+    const [check,setCheck]=useState(0)
  
     return (
         <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
@@ -25,13 +26,13 @@ function App() {
                     <div className="w-full flex flex-col items-center space-y-8">
                         {/* First Row of Components (Airdrop and SendSolana) */}
                         <div className="w-full max-w-[40%] flex flex-row justify-center items-center bg-white p-6 rounded-lg shadow-lg space-x-6">
-                            <Airdrop />
-                            <SendSolana />
+                            <Airdrop check={check} setCheck={setCheck} />
+                            <SendSolana check={check} setCheck={setCheck} />
                         </div>
     
                         {/* Second Row of Components (ShowBalance and SignMessage) */}
                         <div className="w-full max-w-[40%] flex flex-row justify-center items-center bg-white p-6 rounded-lg shadow-lg space-x-6">
-                            <ShowBalance />
+                            <ShowBalance check={check} />
                             <SignMessage />
                         </div>
                     </div>

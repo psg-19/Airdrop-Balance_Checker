@@ -2,7 +2,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import React, { useState } from 'react';
 import axios from 'axios'
-export const Airdrop = () => {
+export const Airdrop = ({check,setCheck}) => {
     const wallet = useWallet();
     const { connection } = useConnection();
     const [value, setValue] = useState();
@@ -37,12 +37,11 @@ const [loading,setLoading]=useState(0);
             "method":"requestAirdrop",
            "params": [wallet.publicKey, value*1e9] 
         })
-            .then((e) => {
+            .then(() => {
                 alert('Airdrop Sent!!!');
-                console.log(e);
-                console.log(e)
                 setValue(0);
                 setLoading(0);
+                setCheck(check+1)
             })
             .catch((e) => {
                 alert('Error!!!');

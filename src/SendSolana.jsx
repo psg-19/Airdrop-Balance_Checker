@@ -2,7 +2,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 import React, { useState } from 'react'
 
-export const SendSolana = () => {
+export const SendSolana = ({check,setCheck}) => {
 const [click ,setClick]=useState(0)
 
 const {connection}=useConnection()
@@ -16,7 +16,7 @@ const wallet=useWallet()
         setClick(1)
         let public_key=document.getElementById("pub_key").value;
         let amt=document.getElementById("amt").value;
-        alert(public_key,"joii")
+        
         const transaction=new Transaction();
 
         transaction.add(SystemProgram.transfer({
@@ -24,9 +24,16 @@ fromPubkey:wallet.publicKey,
 toPubkey:new PublicKey(public_key),
 lamports:amt*1e9
         }))
-alert("hello")
+ 
 await wallet.sendTransaction(transaction,connection)
-.then(()=>alert("Sent "+amt+" SOL to "+public_key))
+.then(()=>{
+    alert("Sent "+amt+" SOL to "+public_key)
+    document.getElementById("pub_key").value=""
+    document.getElementById("amt").value=0;
+    setCheck(
+         check+1
+    )
+})
 .catch(()=>console.log("hiii"))
 
 setClick(0)
