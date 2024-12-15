@@ -12,7 +12,7 @@ function App() {
     const [dropping,setDropping]=useState("https://api.devnet.solana.com")
    
     return (
-        <ConnectionProvider endpoint={import.meta.env.VITE_API_KEY}>
+        <ConnectionProvider endpoint={dropping}>
             <WalletProvider wallets={[]} autoConnect>
                 <WalletModalProvider>
                     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center p-4">
