@@ -6,11 +6,13 @@ export const Airdrop = ({dropping,setDropping}) => {
     const wallet = useWallet();
     const { connection } = useConnection();
     const [value, setValue] = useState();
-
+const [loading,setLoading]=useState(0);
     const handleClick = async () => {
+        setLoading(1);
         if(!value){
             alert ("please enter value");
             setValue()
+            setLoading(0);
             return 
         }
         await connection.requestAirdrop(wallet.publicKey, value*1e9)
@@ -23,6 +25,8 @@ export const Airdrop = ({dropping,setDropping}) => {
                 alert('Error!!!');
                 console.log(e.target.message);
             });
+
+            setLoading(0);
     };
 
     return (
@@ -50,7 +54,7 @@ export const Airdrop = ({dropping,setDropping}) => {
                 onClick={handleClick}
                 className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all"
             >
-                Send Airdrop
+               {loading ? "Please wait ...":" Send Airdrop"}
             </button>
         </div>
     );
