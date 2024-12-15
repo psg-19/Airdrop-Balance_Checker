@@ -33,7 +33,7 @@ export const ShowBalance = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center    justify-center  min-h-44 space-y-4 bg-gray-100">
             {value && (
                 <p className="text-2xl font-semibold text-blue-600 mb-4">
                     {value} SOL

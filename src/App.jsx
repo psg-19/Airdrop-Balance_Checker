@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Airdrop } from './Airdrop';
@@ -8,7 +8,8 @@ import { ShowBalance } from './ShowBalance';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 function App() {
- import.meta.env.VITE_API_KEY;
+ 
+    const [dropping,setDropping]=useState("https://api.devnet.solana.com")
    
     return (
         <ConnectionProvider endpoint={import.meta.env.VITE_API_KEY}>
@@ -23,7 +24,7 @@ function App() {
 
                        
                         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-                            <Airdrop />
+                            <Airdrop dropping={dropping} setDropping={setDropping} />
                         </div>
 
                         <div className="w-full max-w-md bg-white p-6 mt-6 rounded-lg shadow-md">
