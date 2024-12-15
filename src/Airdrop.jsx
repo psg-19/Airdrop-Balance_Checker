@@ -5,9 +5,14 @@ import React, { useState } from 'react';
 export const Airdrop = ({dropping,setDropping}) => {
     const wallet = useWallet();
     const { connection } = useConnection();
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState();
 
     const handleClick = async () => {
+        if(!value){
+            alert ("please enter value");
+            setValue()
+            return 
+        }
         await connection.requestAirdrop(wallet.publicKey, value*1e9)
             .then((e) => {
                 alert('Airdrop Sent!!!');
@@ -35,10 +40,10 @@ export const Airdrop = ({dropping,setDropping}) => {
           
               <input
                 type="text"
-                value={value+" SOL"}
+                value={value}
                 onChange={(e) => setValue(e.target.value )}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-                placeholder="Enter amount"
+                placeholder="Enter amount of SOL"
             />
            
             <button
