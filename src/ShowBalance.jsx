@@ -1,15 +1,15 @@
-import { useWallet } from '@solana/wallet-adapter-react';
-import React, { useState } from 'react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const ShowBalance = () => {
     const wallet = useWallet();
-
+const {connection}=useConnection();
     const [value, setValue] = useState(null);
     const [click, setClick] = useState(0);
 
     async function handleClick() {
-        console.log(wallet);
+        console.log("hii",wallet);
         if (wallet.publicKey == null) {
             setValue(null);
             return;
@@ -17,21 +17,20 @@ export const ShowBalance = () => {
 
         setClick(1);
 
-        await axios
-            .post('https://api.devnet.solana.com', {
-                jsonrpc: '2.0',
-                id: 1,
-                method: 'getAccountInfo',
-                params: [wallet.publicKey, { encoding: 'base64' }],
+         await connection.getBalance(wallet.publicKey)
+            .then((res) => {
+                setValue(res/1e9);
             })
-            .then((response) => {
-                setValue(response.data.result.value.lamports / 1e9);
-            })
-            .catch((error) => alert('Error while fetching balance'));
+            .catch((error) =>{
+                // alert('Error while fetching balance')
+                console.log(error)
+            });
 
         setClick(0);
     }
-
+useEffect(()=>{
+    handleClick()
+},[wallet.publicKey])
     return (
         <div className="flex flex-col items-center justify-center  min-h-44 space-y-4 bg-gray-100">
             {value && (
