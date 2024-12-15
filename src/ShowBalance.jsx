@@ -9,12 +9,12 @@ const {connection}=useConnection();
     const [click, setClick] = useState(0);
 
     async function handleClick() {
-        console.log("hii",wallet);
+        // console.log("hii",wallet);
         if (wallet.publicKey == null) {
             setValue(null);
             return;
         }
-
+if(click)return;
         setClick(1);
 
          await connection.getBalance(wallet.publicKey)
@@ -22,9 +22,10 @@ const {connection}=useConnection();
                 setValue(res/1e9);
             })
             .catch((error) =>{
-                // alert('Error while fetching balance')
+          
                 console.log(error)
             });
+
 
         setClick(0);
     }
@@ -32,22 +33,26 @@ useEffect(()=>{
     handleClick()
 },[wallet.publicKey])
     return (
-        <div className="flex flex-col items-center justify-center  min-h-44 space-y-4 bg-gray-100">
-            {value && (
-                <p className="text-2xl font-semibold text-blue-600 mb-4">
-                    {value} SOL
-                </p>
-            )}
-
-            <button
-                onClick={handleClick}
-                className={`px-6 py-3 font-medium text-white rounded-lg transition ${
-                    click ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-                disabled={click}
-            >
-                {click ? 'Please wait ...' : 'Get Balance'}
-            </button>
-        </div>
+        <div className="flex flex-col items-center justify-center min-h-44 p-6 space-y-6 bg-white shadow-lg rounded-lg border border-gray-200">
+        {value && (
+            <p className="text-4xl font-bold text-blue-700 mb-4 animate-bounce">
+                {value} SOL
+            </p>
+        )}
+    
+        <button
+            onClick={handleClick}
+            className={`w-full max-w-xs px-8 py-4 text-lg font-semibold text-white rounded-lg shadow-lg transform transition-all duration-300 ${
+                click
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:scale-105 hover:from-blue-600 hover:to-blue-700'
+            } focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50`}
+            disabled={click}
+        >
+            {click ? 'Please wait ...' : 'Get Balance'}
+        </button>
+    </div>
+    
+    
     );
 };
